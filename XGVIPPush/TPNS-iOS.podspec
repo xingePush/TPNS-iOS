@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
   spec.authors					= "tencent"
   spec.license					= "MIT"
   spec.platform					= :ios, "7.0"
-  spec.frameworks				= "CFNetwork", "SystemConfiguration", "CoreTelephony", "CoreGraphics", "Foundation", "UserNotifications", "CoreData.framework"
+  spec.frameworks				= "CFNetwork", "SystemConfiguration", "CoreTelephony", "CoreGraphics", "Foundation", "UserNotifications", "CoreData"
   spec.libraries				= "z", "sqlite3"
   spec.source					= { :git => "https://github.com/xingePush/TPNS-iOS.git", :tag => spec.version }
   spec.source_files				= "XGVIPPush/*.h"
