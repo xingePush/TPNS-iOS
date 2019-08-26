@@ -9,9 +9,16 @@
 
 #import <Foundation/Foundation.h>
 
-//#if (__IPHONE_OS_VERSION_MAX_ALLOWED && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0) || (__MAC_OS_VERSION_MAX_ALLOWED && __MAC_OS_VERSION_MAX_ALLOWED >= 101400)
-#import <UserNotifications/UserNotifications.h>
-//#endif
+#ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
+    #if __MAC_OS_X_VERSION_MAX_ALLOWED >= 101400
+        #import <UserNotifications/UserNotifications.h>
+    #endif
+#endif
+
+
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
+    #import <UserNotifications/UserNotifications.h>
+#endif
 
 
 @class CLLocation;
@@ -45,7 +52,7 @@ typedef NS_ENUM(NSUInteger, XGNotificationActionOptions) {
  @param title 行为名称
  @param options 行为支持的选项
  @return 行为对象
- @note 通知栏带有点击事件的特性，只有在iOS8+以上支持，iOS 8 or earlier的版本，此方法返回空
+ @note 通知栏带有点击事件的特性，只有在iOS 8+、macOS 10.14+ 以上支持，iOS 8、macOS10.14 or earlier的版本，此方法返回空
  */
 + (nullable id)actionWithIdentifier:(nonnull NSString *)identifier title:(nonnull NSString *)title options:(XGNotificationActionOptions)options;
 
@@ -71,7 +78,7 @@ typedef NS_ENUM(NSUInteger, XGNotificationActionOptions) {
  @brief 分类对象的属性配置
 
  - XGNotificationCategoryOptionNone: 无
- - XGNotificationCategoryOptionCustomDismissAction: 发送消失事件给UNUserNotificationCenter(iOS 10 or later)对象
+ - XGNotificationCategoryOptionCustomDismissAction: 发送消失事件给UNUserNotificationCenter(iOS 10+、macOS 10.14+ or later)对象
  - XGNotificationCategoryOptionAllowInCarPlay: 允许CarPlay展示此类型的消息
  */
 typedef NS_OPTIONS(NSUInteger, XGNotificationCategoryOptions) {
@@ -95,7 +102,7 @@ typedef NS_OPTIONS(NSUInteger, XGNotificationCategoryOptions) {
  @param intentIdentifiers 用以表明可以通过Siri识别的标识
  @param options 分类的特性
  @return 管理点击行为的分类对象
- @note 通知栏带有点击事件的特性，只有在iOS8+以上支持，iOS 8 or earlier的版本，此方法返回空
+ @note 通知栏带有点击事件的特性，只有在iOS 8+ 、macOS 10.14+ 以上支持，iOS 8 、macOS 10.14  or earlier的版本，此方法返回空
  */
 + (nullable id)categoryWithIdentifier:(nonnull NSString *)identifier actions:(nullable NSArray<XGNotificationAction *> *)actions intentIdentifiers:(nullable NSArray<NSString *> *)intentIdentifiers options:(XGNotificationCategoryOptions)options;
 
@@ -368,34 +375,31 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
 
 @optional
 /**
- @brief 统一消息出口，此接口对不同 iOS 版本的消息接口进行了封装
+ @brief 统一消息出口，此接口对不同操作系统版本的消息接口进行了封装
 
  @param notification 通知内容，需要根据返回类型来确定
  @param completionHandler 接收到消息的回调，必须要调用
  */
 - (void)xgPushDidReceiveRemoteNotification:(nonnull id)notification withCompletionHandler:(nullable void (^)(NSUInteger))completionHandler;
 
-
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 /**
-  @brief 处理iOS 10 UNUserNotification.framework的对应的方法
+  @brief 处理iOS 10、macOS10.14 UNUserNotification.framework的对应的方法
 
  @param center [UNUserNotificationCenter currentNotificationCenter]
  @param notification 通知对象
  @param completionHandler 回调对象，必须调用
  */
-- (void)xgPushUserNotificationCenter:(nonnull UNUserNotificationCenter *)center willPresentNotification:(nullable UNNotification *)notification withCompletionHandler:(nonnull void (^)(UNNotificationPresentationOptions options))completionHandler __IOS_AVAILABLE(10.0);
+- (void)xgPushUserNotificationCenter:(nonnull UNUserNotificationCenter *)center willPresentNotification:(nullable UNNotification *)notification withCompletionHandler:(nonnull void (^)(UNNotificationPresentationOptions options))completionHandler __IOS_AVAILABLE(10.0) __OSX_AVAILABLE(10.14);
 
 /**
-  @brief 处理iOS 10 UNUserNotification.framework的对应的方法
+  @brief 处理iOS 10、macOS10.14 UNUserNotification.framework的对应的方法
 
  @param center [UNUserNotificationCenter currentNotificationCenter]
  @param response 用户对通知消息的响应对象
  @param completionHandler 回调对象，必须调用
  */
-- (void)xgPushUserNotificationCenter:(nonnull UNUserNotificationCenter *)center didReceiveNotificationResponse:(nullable UNNotificationResponse *)response withCompletionHandler:(nonnull void (^)(void))completionHandler __IOS_AVAILABLE(10.0);
+- (void)xgPushUserNotificationCenter:(nonnull UNUserNotificationCenter *)center didReceiveNotificationResponse:(nullable UNNotificationResponse *)response withCompletionHandler:(nonnull void (^)(void))completionHandler __IOS_AVAILABLE(10.0) __OSX_AVAILABLE(10.14);
 
-#endif
 
 /**
  @brief 监控信鸽推送服务地启动情况
@@ -545,12 +549,10 @@ typedef NS_ENUM(NSUInteger, XGPushTokenBindType) {
 /**
  @brief 上报推送消息的用户行为
 
- @param identifier 用户行为标识
+ @param response 用户行为
  @note 此接口即统计推送消息中开发者预先设置或者是系统预置的行为标识，可以了解到用户是如何处理推送消息的，又统计消息的点击次数
  */
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
-- (void)reportXGNotificationResponse:(nullable UNNotificationResponse *)response __IOS_AVAILABLE(10.0);
-#endif
+- (void)reportXGNotificationResponse:(nullable UNNotificationResponse *)response __IOS_AVAILABLE(10.0) __OSX_AVAILABLE(10.14);
 
 /**
  @brief 查询设备通知权限是否被用户允许
