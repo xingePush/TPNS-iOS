@@ -1,6 +1,14 @@
 # TPNS-iOS
  腾讯移动推送 SDK(iOS) CocoaPods 托管镜像
+ 
+ 
+VERSION 1.2.2.1
+-------------------------------------------
+* Fix a bug about network connecting when other apis are called before SDK starting
 
+版本 1.2.2.1
+-------------------------------------------
+* 修复一个当SDK未启动完成就调用其他接口而产生的网络连接的Bug
 
 VERSION 1.2.2.0
 -------------------------------------------
@@ -20,11 +28,12 @@ VERSION 1.2.1.2
 版本 1.2.1.2
 -------------------------------------------
 * 修复点击数据统计bug
+
 版本 1.2.1.1
 -------------------------------------------
 * 修复标签绑定接口在网络连接状态变化时存在的bug
 
 Version 1.2.1.1
-
-- Fix a bug of binding tag when the network status changed
+-------------------------------------------
+* Fix a bug of binding tag when the network status changed
 

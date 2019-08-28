@@ -10,6 +10,6 @@ Pod::Spec.new do |spec|
   spec.libraries				= "z", "sqlite3"
   spec.source					= { :git => "https://github.com/xingePush/TPNS-iOS.git", :tag => spec.version }
   spec.source_files				= "XGVIPPush/*.h"
-  spec.vendored_libraries			= 'libXG-SDK-Cloud.a'
-  spec.vendored_frameworks		        = 'XGMTACloud.framework'
+  spec.vendored_libraries			= 'XGVIPPush/libXG-SDK-Cloud.a'
+  spec.vendored_frameworks		        = 'XGVIPPush/XGMTACloud.framework'
 end
