@@ -2,6 +2,7 @@
  腾讯移动推送 SDK(iOS) CocoaPods 托管镜像
  -------------------------------------------
  
+ 
 VERSION 1.2.2.1
 -------------------------------------------
 * Fix a bug about network connecting when other apis are called before SDK starting
