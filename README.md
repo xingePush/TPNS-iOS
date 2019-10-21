@@ -2,6 +2,8 @@
  腾讯移动推送 SDK(iOS) CocoaPods 托管镜像
  
  -------------------------------------------
+ 
+ 
 VERSION 1.2.4.0
 -------------------------------------------
 * Fix the problem of single account binding callback
@@ -9,6 +11,7 @@ VERSION 1.2.4.0
 * Newly differentiated device push environment to optimize statistics
 * Optimize the cache logic for replacing App information
 * Improve SDK registration success rate
+
 
 版本 1.2.4.0
 -------------------------------------------
